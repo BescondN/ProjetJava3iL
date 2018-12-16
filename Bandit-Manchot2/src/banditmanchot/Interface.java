@@ -65,7 +65,7 @@ public class Interface {
 	 */
 	public static void configCasino()
 	{
-		int nb_machine = (int) demanderNombre("Nombre de machines dans le casino ? : ",1,20);
+		int nb_machine = (int) demanderNombre("Nombre de machines dans le casino ? : ",1,1000);
 		int nb_joueur = (int) demanderNombre("Nombre de joueur dans la casino ? : ",1,nb_machine);
 		
 		casino = new Casino(nb_machine, nb_joueur);
@@ -131,19 +131,7 @@ public class Interface {
 	 */
 	public static void lancerSimulation()
 	{
-		int i =1;
-		for(Utilisateur user : casino.liste_user)
-		{
-			System.out.println("*********** JOUEUR " + i + " ***********");
-			System.out.println("CE JOUEUR CONSERVE " + user.comportement.nb_symbol_lock + " SYMBOLE(S) ET S'ARRETE A " + user.comportement.stop_play + " JETONS");
-			while(user.nb_jeton > 0 && user.nb_jeton < user.comportement.getStop_play())
-			{
-				user.jouer();
-			}
-             resultatJoueur(user);
-			i++;
-		}
-		resultatCasino();
+		casino.simulation();
 	}
 	/**
 	 * Affichage du résultat final d'un joueur
@@ -184,18 +172,20 @@ public class Interface {
 	
 	public static void main(String[] args) {
 		
-		Tirage.liste.add(new Symbole("cerise", 0.30f, 0.05f));		//30% de chance 
-		Tirage.liste.add(new Symbole("feuille", 0.55f, 0.1f));      // 25% de chance (0.55 - 0.30)
-		Tirage.liste.add(new Symbole("pomme", 0.70f, 0.15f));       // 15% de chance (0.70 - 0.55)
-		Tirage.liste.add(new Symbole("banane", 0.83f, 0.20f));      // 13% de chance (0.83 - 0.70)
-		Tirage.liste.add(new Symbole("piece", 0.93f, 0.25f));       // 10% de chance (0.93 - 0.83)
-		Tirage.liste.add(new Symbole("couronne", 0.98f, 0.5f));     // 5% de chance (0.98 - 0.93)
-		Tirage.liste.add(new Symbole("7", 1f, 1f));                 // 2% de chance (1 - 0.98)
+		Tirage.liste.add(new Symbole("cerise", 0.30f, 0.05f));		//30% de chance & 5% de gain
+		Tirage.liste.add(new Symbole("feuille", 0.55f, 0.1f));      // 25% de chance (0.55 - 0.30) & 10% de gain
+		Tirage.liste.add(new Symbole("pomme", 0.70f, 0.15f));       // 15% de chance (0.70 - 0.55) & 15% de gain
+		Tirage.liste.add(new Symbole("banane", 0.83f, 0.20f));      // 13% de chance (0.83 - 0.70) & 20% de gain
+		Tirage.liste.add(new Symbole("piece", 0.93f, 0.25f));       // 10% de chance (0.93 - 0.83) & 25% de gain
+		Tirage.liste.add(new Symbole("couronne", 0.98f, 0.5f));     // 5% de chance (0.98 - 0.93) & 50% de gain
+		Tirage.liste.add(new Symbole("7", 1f, 1f));                 // 2% de chance (1 - 0.98) & 100% de gain
 		
 		String[] menu = {"Jouer","Configuration / Simulation"};
 		int choix = menu(menu);
 		if(choix == 1)
 		{
+			configMachines();
+			configJoueurs();
 			Machine machine = new Machine();
 			Utilisateur user = new Utilisateur(machine);
 			String rejouer="N";
@@ -204,7 +194,7 @@ public class Interface {
 			{
 				ok = user.jouer();
 				if(ok)
-				rejouer = demanderString("Presser la touche Entrée pour continuer ou 'N' pour arreter : \n");
+				rejouer = demanderString("Vous avez : " +user.nb_jeton + " jeton(s). Presser la touche Entrée pour continuer ou 'N' pour arreter : \n");
 			}
 			while(ok && !rejouer.equals("N") && !rejouer.equals("n"));
 		}

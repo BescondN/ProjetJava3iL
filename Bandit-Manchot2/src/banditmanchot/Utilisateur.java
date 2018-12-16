@@ -25,7 +25,7 @@ public class Utilisateur {
     
     public Boolean jouer()
     {
-    	if(nb_jeton > 0)
+    	if(nb_jeton > 0 && this.getMachine().solde_jeton > 0)
     	{
     		nb_jeton--;
     		machine.tirage();
@@ -33,7 +33,10 @@ public class Utilisateur {
     	}
     	else
     	{
-    		System.out.println("Plus de jeton");
+    		if(!(nb_jeton > 0))
+    		 System.out.println("Le joueur n'a plus de jeton");
+    		if(!(this.getMachine().solde_jeton > 0))
+       		 System.out.println("La machine n'a plus de jeton");
     		return false;
     	}
     }
