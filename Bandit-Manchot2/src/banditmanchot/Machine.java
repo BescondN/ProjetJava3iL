@@ -102,11 +102,11 @@ public class Machine {
 			{
 			   if(this.current_player.comportement.lock_max_symbol)
 			   {
-				   this.symbolLock1 = getIndexMaxSymbol(true);
+				   this.symbolLock1 = getIndexMinMaxSymbol(true);
 			   }
 			   else
 			   {
-				   this.symbolLock1 = getIndexMaxSymbol(true);;
+				   this.symbolLock1 = getIndexMinMaxSymbol(false);;
 			   }
 			}
 		}
@@ -162,7 +162,7 @@ public class Machine {
 		
 
 	}
-	private int getIndexMaxSymbol(Boolean maxi)
+	private int getIndexMinMaxSymbol(Boolean maxi)
 	{
 		int indexMax = 0;
 		int indexMin = 0;
@@ -171,7 +171,13 @@ public class Machine {
 		for(int i = 1; i< symbol_combinaison.size(); i++)
 		{
 			if(symbol_combinaison.get(i).getRarete() > max)
+			{
 				indexMax = i;
+			}
+			if(symbol_combinaison.get(i).getRarete() < min)
+			{
+				indexMin = i;
+			}
 		}
 		if(maxi)
 		   return indexMax;

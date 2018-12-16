@@ -23,15 +23,19 @@ public class Utilisateur {
     	this.setMachine(machine);
     }
     
-    public void jouer()
+    public Boolean jouer()
     {
     	if(nb_jeton > 0)
     	{
     		nb_jeton--;
     		machine.tirage();
+    		return true;
     	}
     	else
+    	{
     		System.out.println("Plus de jeton");
+    		return false;
+    	}
     }
     
     public int getNb_jeton() {
