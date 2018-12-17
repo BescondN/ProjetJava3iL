@@ -8,12 +8,12 @@ public class Casino {
 	private int nb_machines;
 
 	private int nb_visiteurs;
-	
+
 	public List<Machine> liste_machine;
-	
+
 	public List<Utilisateur> liste_user;
-	
-	
+
+
 	public Casino (int nbMachines, int nbVisiteurs)
 	{
 		nb_machines = nbMachines;
@@ -23,7 +23,7 @@ public class Casino {
 
 	}
 
-	
+
 	public int getNb_machines() {
 		return nb_machines;
 	}
@@ -39,7 +39,10 @@ public class Casino {
 	public void setNb_visiteurs(int nb_visiteurs) {
 		this.nb_visiteurs = nb_visiteurs;
 	}
-	
+
+	/**
+	 * Lance la simulation du casino
+	 */
 	public void simulation()
 	{
 		int i =1;
@@ -56,6 +59,9 @@ public class Casino {
 		}
 		resultatCasino();
 	}
+	/**
+	 * Affiche le resultat final du casino
+	 */
 	private void resultatCasino()
 	{
 		System.out.println("*********** RESULTAT CASINO ***********");
@@ -67,7 +73,7 @@ public class Casino {
 			total_jeton += machine.solde_jeton;
 			i++;
 		}
-		
+
 		if(total_jeton-getNb_machines()*Machine.solde_jeton_init < 0)
 		{
 			System.out.println("Le casino a perdu " + (getNb_machines()*Machine.solde_jeton_init-total_jeton) + " jeton(s)");
