@@ -36,10 +36,18 @@ public class Interface {
 		double resultat;
 		do
 		{
-			System.out.println(phrase + "( entre " + min + " et " + max + " )");
+			if(max >=0)
+			{
+				System.out.println(phrase + "( entre " + min + " et " + max + " )");
+			}
+			else
+			{
+				System.out.println(phrase + "( supérieur à " + min + " )");
+			}
+			
 			resultat = saisie.nextDouble();
  		}
-		while(resultat < min || resultat > max);
+		while(resultat < min || (resultat > max && max != -1));
 
 
 		//saisie.close();
@@ -65,7 +73,7 @@ public class Interface {
 	 */
 	public static void configCasino()
 	{
-		int nb_machine = (int) demanderNombre("Nombre de machines dans le casino ? : ",1,1000);
+		int nb_machine = (int) demanderNombre("Nombre de machines dans le casino ? : ",1,-1);
 		int nb_joueur = (int) demanderNombre("Nombre de joueur dans la casino ? : ",1,nb_machine);
 
 		casino = new Casino(nb_machine, nb_joueur);
@@ -76,7 +84,7 @@ public class Interface {
 	 */
 	public static void configMachines()
 	{
-		int nb_jeton_init = (int) demanderNombre("Nombre de jeton dans les machines : ",1,1000);
+		int nb_jeton_init = (int) demanderNombre("Nombre de jeton de la machine : ",1,-1);
 
 		Machine.solde_jeton_init = nb_jeton_init;
 
@@ -86,7 +94,7 @@ public class Interface {
 	 */
 	public static void configJoueurs()
 	{
-		int nb_jeton_init = (int) demanderNombre("Nombre de jeton par joueurs : ",1,1000);
+		int nb_jeton_init = (int) demanderNombre("Nombre de jeton du joueur : ",1,-1);
 
 		Utilisateur.nb_jeton_init = nb_jeton_init;
 
@@ -109,42 +117,7 @@ public class Interface {
 
 		}
 	}
-	/**
-	 * Creation des machines et joueurs, affectation de chaque joueurs aux machines
-	 */
-	public static void creation()
-	{
-		for(int i = 0; i<casino.getNb_machines();i++)
-		{
-			casino.liste_machine.add(new Machine());
-		}
-		Utilisateur user;
-		for(int i = 0; i<casino.getNb_visiteurs();i++)
-		{
-			user = new Utilisateur(Comportement.randomComportement());
-			user.setMachine(casino.liste_machine.get(i));
-			casino.liste_user.add(user);
-		}
-	}
-	/**
-	 * Lancement de la simulaton du casino
-	 */
-	public static void lancerSimulation()
-	{
-		casino.simulation();
-	}
-	/**
-	 * Affichage du résultat final d'un joueur
-	 * @param user L'utilisateur
-	 */
-	public static void resultatJoueur(Utilisateur user)
-	{
-		System.out.println("*********** RESULTAT ***********");
-
-		System.out.println("Il reste " + user.getNb_jeton() + " jeton(s) au joueur");
-		System.out.println("Il y a  " + user.getMachine().solde_jeton + " jeton(s) dans la machine");
-
-	}
+	
 
 	public static void main(String[] args) {
 
@@ -156,36 +129,41 @@ public class Interface {
 		Tirage.liste.add(new Symbole("couronne", 0.98f, 0.5f));     // 5% de chance (0.98 - 0.93) & 50% de gain
 		Tirage.liste.add(new Symbole("7", 1f, 1f));                 // 2% de chance (1 - 0.98) & 100% de gain
 
-		String[] menu = {"Jouer","Configuration / Simulation"};
-		int choix = menu(menu);
-		if(choix == 1)
+		String[] menu = {"Jouer","Configuration / Simulation", "Quitter"};
+		int choix;
+		do
 		{
-			configMachines();
-			configJoueurs();
-			Machine machine = new Machine();
-			Utilisateur user = new Utilisateur(machine);
-			String rejouer="N";
-			Boolean ok;
-			do
+			choix = menu(menu);
+			if(choix == 1)
 			{
-				ok = user.jouer();
-				if(ok)
-				rejouer = demanderString("Vous avez : " +user.nb_jeton + " jeton(s). Presser la touche Entrée pour continuer ou 'N' pour arreter : \n");
+				configMachines();
+				configJoueurs();
+				Machine machine = new Machine();
+				Utilisateur user = new Utilisateur(machine);
+				String rejouer="N";
+				Boolean ok;
+				do
+				{
+					ok = user.jouer();
+					if(ok)
+					rejouer = demanderString("Vous avez : " +user.nb_jeton + " jeton(s). Presser la touche Entrée pour continuer ou 'N' pour arreter : \n");
+				}
+				while(ok && !rejouer.equals("N") && !rejouer.equals("n"));
 			}
-			while(ok && !rejouer.equals("N") && !rejouer.equals("n"));
+			if(choix == 2)
+			{
+				configCasino();
+				configMachines();
+				configJoueurs();
+
+				casino.creation();
+
+				//configSymboles();
+
+				casino.simulation();
+			}
 		}
-		if(choix == 2)
-		{
-			configCasino();
-			configMachines();
-			configJoueurs();
-
-			creation();
-
-			//configSymboles();
-
-			lancerSimulation();
-		}
+		while(choix != 3 );
 
 
 	}

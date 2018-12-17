@@ -54,7 +54,7 @@ public class Casino {
 			{
 				user.jouer();
 			}
-             Interface.resultatJoueur(user);
+             user.resultatJoueur();
 			i++;
 		}
 		resultatCasino();
@@ -82,6 +82,23 @@ public class Casino {
 		else
 		{
 			System.out.println("Le casino a gagné " + (total_jeton-getNb_machines()*Machine.solde_jeton_init) + " jeton(s)");
+		}
+	}
+	/**
+	 * Creation des machines et joueurs, affectation de chaque joueurs aux machines
+	 */
+	public void creation()
+	{
+		for(int i = 0; i< getNb_machines();i++)
+		{
+			liste_machine.add(new Machine());
+		}
+		Utilisateur user;
+		for(int i = 0; i<getNb_visiteurs();i++)
+		{
+			user = new Utilisateur(Comportement.randomComportement());
+			user.setMachine(liste_machine.get(i));
+			liste_user.add(user);
 		}
 	}
 }

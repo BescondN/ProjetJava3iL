@@ -34,9 +34,9 @@ public class Utilisateur {
     	else
     	{
     		if(!(nb_jeton > 0))
-    		 System.out.println("Le joueur n'a plus de jeton");
+    		 System.out.println("Le joueur n'a plus de jeton\n");
     		if(!(this.getMachine().solde_jeton > 0))
-       		 System.out.println("La machine n'a plus de jeton");
+       		 System.out.println("La machine n'a plus de jeton\n");
     		return false;
     	}
     }
@@ -64,6 +64,18 @@ public class Utilisateur {
 	public void setMachine(Machine machine) {
 		this.machine = machine;
 		machine.setCurrent_player(this);
+	}
+	
+	/**
+	 * Affichage du résultat final d'un joueur
+	 */
+	public void resultatJoueur()
+	{
+		System.out.println("*********** RESULTAT ***********");
+
+		System.out.println("Il reste " + getNb_jeton() + " jeton(s) au joueur");
+		System.out.println("Il y a  " + getMachine().solde_jeton + " jeton(s) dans la machine");
+
 	}
 
 }
