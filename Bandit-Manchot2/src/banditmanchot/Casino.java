@@ -96,8 +96,7 @@ public class Casino {
 		Utilisateur user;
 		for(int i = 0; i<getNb_visiteurs();i++)
 		{
-			user = new Utilisateur(Comportement.randomComportement());
-			user.setMachine(liste_machine.get(i));
+			user = new Utilisateur(Comportement.randomComportement(),liste_machine.get(i));
 			liste_user.add(user);
 		}
 	}
