@@ -5,7 +5,6 @@ public class Test {
 	public static void main(String[] args) {
 		
 		Casino casino;
-		
 		IHMConsole ihm = new IHMConsole();
 
 		Tirage.liste.add(new Symbole("cerise", 0.30f, 0.05f));		//30% de chance & 5% de gain

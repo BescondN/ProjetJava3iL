@@ -1,28 +1,29 @@
 package banditmanchot;
 
 public class Utilisateur {
-	
+
 	static int nb_jeton_init = 10;
-	
+
 	public int nb_jeton;
-	
+
     public Comportement comportement;
-    
-    
+
+
 	public Machine machine;
-    
-    public Utilisateur(Comportement comportement)
+
+    public Utilisateur(Comportement comportement, Machine machine)
     {
     	nb_jeton = Utilisateur.nb_jeton_init;
     	this.comportement = comportement;
+    	setMachine(machine);
     }
-    
+
     public Utilisateur(Machine machine)
     {
     	nb_jeton = Utilisateur.nb_jeton_init;
-    	this.setMachine(machine);
-    }
-    
+    	setMachine(machine);
+     }
+
     public Boolean jouer()
     {
     	if(nb_jeton > 0 && this.getMachine().solde_jeton > 0)
@@ -40,7 +41,7 @@ public class Utilisateur {
     		return false;
     	}
     }
-    
+
     public int getNb_jeton() {
 		return nb_jeton;
 	}
@@ -65,7 +66,7 @@ public class Utilisateur {
 		this.machine = machine;
 		machine.setCurrent_player(this);
 	}
-	
+
 	/**
 	 * Affichage du résultat final d'un joueur
 	 */
