@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Machine {
+public class MachineOrdinaire {
 	
     static int solde_jeton_init = 100;
 	
@@ -19,10 +19,10 @@ public class Machine {
 	 
 	 int symbolLock1, symbolLock2;
 	
-	public Machine()
+	public MachineOrdinaire()
 	{
 		symbol_combinaison = new ArrayList<Symbole>();
-		solde_jeton = Machine.solde_jeton_init;
+		solde_jeton = MachineOrdinaire.solde_jeton_init;
 		unlockSymbol();
 	}
 

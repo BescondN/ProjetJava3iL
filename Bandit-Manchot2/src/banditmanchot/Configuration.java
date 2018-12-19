@@ -22,7 +22,7 @@ public class Configuration {
 	{
 		int nb_jeton_init = (int) ihm.demanderNombreEntreBornes("Nombre de jeton de la machine : ",1,-1);
 
-		Machine.solde_jeton_init = nb_jeton_init;
+		MachineOrdinaire.solde_jeton_init = nb_jeton_init;
 
 	}
 	/**

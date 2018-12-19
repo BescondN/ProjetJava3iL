@@ -9,16 +9,16 @@ public class Utilisateur {
     public Comportement comportement;
 
 
-	public Machine machine;
+	public MachineOrdinaire machine;
 
-    public Utilisateur(Comportement comportement, Machine machine)
+    public Utilisateur(Comportement comportement, MachineOrdinaire machine)
     {
     	nb_jeton = Utilisateur.nb_jeton_init;
     	this.comportement = comportement;
     	setMachine(machine);
     }
 
-    public Utilisateur(Machine machine)
+    public Utilisateur(MachineOrdinaire machine)
     {
     	nb_jeton = Utilisateur.nb_jeton_init;
     	setMachine(machine);
@@ -58,11 +58,11 @@ public class Utilisateur {
 		this.comportement = comportement;
 	}
 
-	public Machine getMachine() {
+	public MachineOrdinaire getMachine() {
 		return machine;
 	}
 
-	public void setMachine(Machine machine) {
+	public void setMachine(MachineOrdinaire machine) {
 		this.machine = machine;
 		machine.setCurrent_player(this);
 	}

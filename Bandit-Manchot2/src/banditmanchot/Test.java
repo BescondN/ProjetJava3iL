@@ -24,7 +24,7 @@ public class Test {
 			{
 				Configuration.configMachines();
 				Configuration.configJoueurs();
-				Machine machine = new Machine();
+				MachineOrdinaire machine = new MachineOrdinaire();
 				Utilisateur user = new Utilisateur(machine);
 				String rejouer="N";
 				Boolean ok;
