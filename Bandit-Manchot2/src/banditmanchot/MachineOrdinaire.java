@@ -44,6 +44,11 @@ public class MachineOrdinaire extends Machine {
 		this.nb_jetons_gagne=0;
 	}
 	
+	/**
+	 * Détermine l'index du plus ou moins rare symbole
+	 * @param maxi True pour le plus rare et false pour le moins rare
+	 * @return
+	 */
 	private int getIndexMinMaxSymbol(Boolean maxi)
 	{
 		int indexMax = 0;
@@ -68,6 +73,9 @@ public class MachineOrdinaire extends Machine {
 	}
 	
 	@Override
+	/**
+	 * Vérouille les symbole en fonction du comportement du joueur en mode simulation
+	 */
 	public void lockSymbolSimu()
 	{
 		if(this.current_player.comportement.nb_symbol_lock != 0)
@@ -100,6 +108,9 @@ public class MachineOrdinaire extends Machine {
 	
 
 	@Override
+	/**
+	 * Véérouille les symboles en mode jouer
+	 */
 	public void lockSymbol() {
 
 		Scanner saisie  = new Scanner(System.in);
@@ -125,6 +136,9 @@ public class MachineOrdinaire extends Machine {
 	}
 
 	@Override
+	/**
+	 * Affiche le résultat du tirage
+	 */
 	public void afficheResultat() {
 		
 		for(Symbole symbole : symbol_combinaison)
@@ -137,6 +151,9 @@ public class MachineOrdinaire extends Machine {
 	}
 
 	@Override
+	/**
+	 * Débloque les symboles
+	 */
 	public void unlockSymbol() {
 
 
@@ -146,6 +163,9 @@ public class MachineOrdinaire extends Machine {
 	}
 
 	@Override
+	/**
+	 * Vérifie si les 3 symboles sont identiques et retourne True si ils sont identiques sinon false
+	 */
 	public Boolean verification() {
 
 		if(symbol_combinaison.get(0) == symbol_combinaison.get(1) && symbol_combinaison.get(0) == symbol_combinaison.get(2))
@@ -158,6 +178,9 @@ public class MachineOrdinaire extends Machine {
 	}
 
 	@Override
+	/**
+	 * Calcul et met à jour les gains du joueur et de la machine
+	 */
 	public void calculGains() {
 
 		double taux = 1;
@@ -183,6 +206,9 @@ public class MachineOrdinaire extends Machine {
 	}
 	
 	@Override
+	/**
+	 * Permet le lancer la machine pour effectuer un tirage
+	 */
 	public void tirage()
 	{
 		solde_jeton++;
