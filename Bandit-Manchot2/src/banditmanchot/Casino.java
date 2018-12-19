@@ -13,7 +13,12 @@ public class Casino {
 
 	public List<Utilisateur> liste_user;
 
-
+	/**
+	 * Constructeur de la classe Casino. Permet de récupérer le nombre de machines et 
+	 * de visiteurs.
+	 * @param nbMachines
+	 * @param nbVisiteurs
+	 */
 	public Casino (int nbMachines, int nbVisiteurs)
 	{
 		nb_machines = nbMachines;
@@ -23,11 +28,10 @@ public class Casino {
 
 	}
 
-
 	public int getNb_machines() {
 		return nb_machines;
 	}
-
+	
 	public void setNb_machines(int nb_machines) {
 		this.nb_machines = nb_machines;
 	}
@@ -60,7 +64,7 @@ public class Casino {
 		resultatCasino();
 	}
 	/**
-	 * Affiche le resultat final du casino
+	 * Affiche le resultat des gains et pertes du casino
 	 */
 	private void resultatCasino()
 	{
