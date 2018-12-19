@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Random;
 
 public class Tirage {
+	
+	static IHMConsole ihm = new IHMConsole();
 
 	/**
 	 * Permet de trier des symboles en fonction de leur rareté
@@ -59,7 +61,7 @@ public class Tirage {
 	{
 		for(Symbole symbole : Tirage.liste)
 		{
-			System.out.println(symbole.getNom());
+			ihm.afficheMessage(symbole.getNom());
 		}
 
 	}

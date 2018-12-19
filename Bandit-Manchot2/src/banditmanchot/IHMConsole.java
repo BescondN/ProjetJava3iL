@@ -9,7 +9,8 @@ public class IHMConsole extends IHMInterface {
 
 	@Override
 	public  void afficheMessage(String message) {
-		// TODO Auto-generated method stub
+
+			System.out.println(message);
 		
 	}
 
@@ -23,7 +24,7 @@ public class IHMConsole extends IHMInterface {
 		
 		for(int i = 0; i < choixPossible.length; i++)
 		{
-			System.out.println(i+1 + ". " + choixPossible[i]);
+			afficheMessage(i+1 + ". " + choixPossible[i]);
 		}
 		return (int) demanderNombreEntreBornes("Quel est votre choix ? : ",1,choixPossible.length);
 	}
@@ -44,11 +45,11 @@ public class IHMConsole extends IHMInterface {
 		{
 			if(max >=0)
 			{
-				System.out.println(phrase + "( entre " + min + " et " + max + " )");
+				afficheMessage(phrase + "( entre " + min + " et " + max + " )");
 			}
 			else
 			{
-				System.out.println(phrase + "( supérieur à " + min + " )");
+				afficheMessage(phrase + "( supérieur à " + min + " )");
 			}
 			
 			resultat = saisie.nextDouble();
@@ -68,7 +69,7 @@ public class IHMConsole extends IHMInterface {
 	 */
 	public String demanderString(String phrase) {
 
-		System.out.println(phrase);
+		afficheMessage(phrase);
 		String res =  saisie.nextLine();
 		return res;
 	}

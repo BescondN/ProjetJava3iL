@@ -9,6 +9,8 @@ public class MachineOrdinaire extends Machine {
     static int solde_jeton_init = 100;
 	
 	public int solde_jeton;
+	
+	IHMConsole ihm = new IHMConsole();
 		
 	 Utilisateur current_player;
 	 
@@ -117,7 +119,7 @@ public class MachineOrdinaire extends Machine {
 		String[] resultats;
 		do {
 			
-			System.out.print("Saisir symboles à conserver ( s'éparer par une virgule) : ");
+			ihm.afficheMessage("Saisir symboles à conserver ( s'éparer par une virgule) : ");
 			String result = saisie.nextLine();
 			resultats = result.split(",");
 		}
@@ -143,10 +145,10 @@ public class MachineOrdinaire extends Machine {
 		
 		for(Symbole symbole : symbol_combinaison)
 		{
-			System.out.print(symbole.getNom() + "/");
+			ihm.afficheMessage(symbole.getNom() + "/");
 		}
 		
-		System.out.println("\nVous avez perdu " + nb_jetons_perdu  +" jeton(s) et gagner " + nb_jetons_gagne + " jeton(s) sur cette machine" );
+		ihm.afficheMessage("\nVous avez perdu " + nb_jetons_perdu  +" jeton(s) et gagner " + nb_jetons_gagne + " jeton(s) sur cette machine" );
 		
 	}
 
@@ -192,14 +194,14 @@ public class MachineOrdinaire extends Machine {
 		{
 			taux = 0.33;
 		}
-		System.out.println("Taux : " + taux + " * " + symbol_combinaison.get(0).gettauxGain());
+		ihm.afficheMessage("Taux : " + taux + " * " + symbol_combinaison.get(0).gettauxGain());
 		taux = taux * symbol_combinaison.get(0).gettauxGain();
-		System.out.println(" = " + taux+ " **** JETONS =  " + taux + " * " + solde_jeton);
+		ihm.afficheMessage(" = " + taux+ " **** JETONS =  " + taux + " * " + solde_jeton);
 		this.current_player.nb_jeton += solde_jeton * taux;
 		nb_jetons_gagne+= solde_jeton * taux;
-		System.out.println(" = " + taux*solde_jeton + " TOTAL JOUEUR " + this.current_player.nb_jeton);
+		ihm.afficheMessage(" = " + taux*solde_jeton + " TOTAL JOUEUR " + this.current_player.nb_jeton);
 		this.solde_jeton -= taux*this.solde_jeton;
-		System.out.println("RESTE " + this.solde_jeton);
+		ihm.afficheMessage("RESTE " + this.solde_jeton);
 				
 		unlockSymbol();
 		

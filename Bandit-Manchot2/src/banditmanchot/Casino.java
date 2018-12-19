@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Casino {
+	
+	IHMConsole ihm = new IHMConsole();
 
 	private int nb_machines;
 
@@ -48,8 +50,8 @@ public class Casino {
 		int i =1;
 		for(Utilisateur user : liste_user)
 		{
-			System.out.println("*********** JOUEUR " + i + " ***********");
-			System.out.println("CE JOUEUR CONSERVE " + user.comportement.nb_symbol_lock + " SYMBOLE(S) ET S'ARRETE A " + user.comportement.stop_play + " JETONS");
+			ihm.afficheMessage("*********** JOUEUR " + i + " ***********");
+			ihm.afficheMessage("CE JOUEUR CONSERVE " + user.comportement.nb_symbol_lock + " SYMBOLE(S) ET S'ARRETE A " + user.comportement.stop_play + " JETONS");
 			while(user.nb_jeton > 0 && user.nb_jeton < user.comportement.getStop_play())
 			{
 				user.jouer();
@@ -64,24 +66,24 @@ public class Casino {
 	 */
 	private void resultatCasino()
 	{
-		System.out.println("*********** RESULTAT CASINO ***********");
+		ihm.afficheMessage("*********** RESULTAT CASINO ***********");
 		int total_jeton=0;
 		int  i = 1;
 		for(MachineOrdinaire machine : liste_machine)
 		{
-			System.out.println("Machine " + i + " : " + machine.solde_jeton + " jeton(s).");
+			ihm.afficheMessage("Machine " + i + " : " + machine.solde_jeton + " jeton(s).");
 			total_jeton += machine.solde_jeton;
 			i++;
 		}
 
 		if(total_jeton-getNb_machines()*MachineOrdinaire.solde_jeton_init < 0)
 		{
-			System.out.println("Le casino a perdu " + (getNb_machines()*MachineOrdinaire.solde_jeton_init-total_jeton) + " jeton(s)");
+			ihm.afficheMessage("Le casino a perdu " + (getNb_machines()*MachineOrdinaire.solde_jeton_init-total_jeton) + " jeton(s)");
 
 		}
 		else
 		{
-			System.out.println("Le casino a gagné " + (total_jeton-getNb_machines()*MachineOrdinaire.solde_jeton_init) + " jeton(s)");
+			ihm.afficheMessage("Le casino a gagné " + (total_jeton-getNb_machines()*MachineOrdinaire.solde_jeton_init) + " jeton(s)");
 		}
 	}
 	/**
