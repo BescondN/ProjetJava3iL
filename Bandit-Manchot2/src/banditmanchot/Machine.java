@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class Machine {
 	
-    static int solde_jeton_init = 500;
+    static int solde_jeton_init = 100;
 	
 	public int solde_jeton;
 		
