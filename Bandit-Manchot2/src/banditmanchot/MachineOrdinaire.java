@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class MachineOrdinaire {
+public class MachineOrdinaire extends Machine {
 	
     static int solde_jeton_init = 100;
 	
@@ -44,6 +44,145 @@ public class MachineOrdinaire {
 		this.nb_jetons_gagne=0;
 	}
 	
+	private int getIndexMinMaxSymbol(Boolean maxi)
+	{
+		int indexMax = 0;
+		int indexMin = 0;
+		double max = symbol_combinaison.get(0).getRarete();
+		double min = symbol_combinaison.get(0).getRarete();
+		for(int i = 1; i< symbol_combinaison.size(); i++)
+		{
+			if(symbol_combinaison.get(i).getRarete() > max)
+			{
+				indexMax = i;
+			}
+			if(symbol_combinaison.get(i).getRarete() < min)
+			{
+				indexMin = i;
+			}
+		}
+		if(maxi)
+		   return indexMax;
+		 else
+			return indexMin;
+	}
+	
+	@Override
+	public void lockSymbolSimu()
+	{
+		if(this.current_player.comportement.nb_symbol_lock != 0)
+		{
+			if(symbolLock1 == -1)
+			{
+			   if(this.current_player.comportement.lock_max_symbol)
+			   {
+				   this.symbolLock1 = getIndexMinMaxSymbol(true);
+			   }
+			   else
+			   {
+				   this.symbolLock1 = getIndexMinMaxSymbol(false);;
+			   }
+			}
+		}
+		if(this.current_player.comportement.nb_symbol_lock == 2 && symbolLock2 == -1 && symbolLock1 != -1)
+		{
+			int i =0;
+			while(symbolLock2 == -1 && i < symbol_combinaison.size())
+			{
+				if(i != symbolLock1 && symbol_combinaison.get(symbolLock1) == symbol_combinaison.get(i))
+				{
+					symbolLock2 = i;
+				}
+				i++;
+			}
+		}
+	}
+	
+
+	@Override
+	public void lockSymbol() {
+
+		Scanner saisie  = new Scanner(System.in);
+		String[] resultats;
+		do {
+			
+			System.out.print("Saisir symboles à conserver ( s'éparer par une virgule) : ");
+			String result = saisie.nextLine();
+			resultats = result.split(",");
+		}
+		while(resultats.length > 2);
+		
+		if(resultats.length > 0 && !resultats[0].isEmpty())
+		{
+			symbolLock1 = Integer.parseInt(resultats[0])-1;
+		}
+		if(resultats.length >1 && !resultats[1].isEmpty())
+		{
+			symbolLock2 = Integer.parseInt(resultats[1])-1;
+		}
+			
+		
+	}
+
+	@Override
+	public void afficheResultat() {
+		
+		for(Symbole symbole : symbol_combinaison)
+		{
+			System.out.print(symbole.getNom() + "/");
+		}
+		
+		System.out.println("\nVous avez perdu " + nb_jetons_perdu  +" jeton(s) et gagner " + nb_jetons_gagne + " jeton(s) sur cette machine" );
+		
+	}
+
+	@Override
+	public void unlockSymbol() {
+
+
+		symbolLock1 = -1;
+		symbolLock2 = -1;
+		
+	}
+
+	@Override
+	public Boolean verification() {
+
+		if(symbol_combinaison.get(0) == symbol_combinaison.get(1) && symbol_combinaison.get(0) == symbol_combinaison.get(2))
+		{
+			
+			return true;
+		}
+		else
+			return false;
+	}
+
+	@Override
+	public void calculGains() {
+
+		double taux = 1;
+		if(symbolLock1 != -1)
+		{
+			taux = 0.66;
+		}
+		if(symbolLock2 != -1)
+		{
+			taux = 0.33;
+		}
+		System.out.println("Taux : " + taux + " * " + symbol_combinaison.get(0).gettauxGain());
+		taux = taux * symbol_combinaison.get(0).gettauxGain();
+		System.out.println(" = " + taux+ " **** JETONS =  " + taux + " * " + solde_jeton);
+		this.current_player.nb_jeton += solde_jeton * taux;
+		nb_jetons_gagne+= solde_jeton * taux;
+		System.out.println(" = " + taux*solde_jeton + " TOTAL JOUEUR " + this.current_player.nb_jeton);
+		this.solde_jeton -= taux*this.solde_jeton;
+		System.out.println("RESTE " + this.solde_jeton);
+				
+		unlockSymbol();
+		
+	}
+	
+	@Override
 	public void tirage()
 	{
 		solde_jeton++;
@@ -88,140 +227,9 @@ public class MachineOrdinaire {
 			calculGains();
 			afficheResultat();
 
-
 		}
 
 
-	}
-	
-	public void lockSymbolSimu()
-	{
-		if(this.current_player.comportement.nb_symbol_lock != 0)
-		{
-			if(symbolLock1 == -1)
-			{
-			   if(this.current_player.comportement.lock_max_symbol)
-			   {
-				   this.symbolLock1 = getIndexMinMaxSymbol(true);
-			   }
-			   else
-			   {
-				   this.symbolLock1 = getIndexMinMaxSymbol(false);;
-			   }
-			}
-		}
-		if(this.current_player.comportement.nb_symbol_lock == 2 && symbolLock2 == -1 && symbolLock1 != -1)
-		{
-			int i =0;
-			while(symbolLock2 == -1 && i < symbol_combinaison.size())
-			{
-				if(i != symbolLock1 && symbol_combinaison.get(symbolLock1) == symbol_combinaison.get(i))
-				{
-					symbolLock2 = i;
-				}
-				i++;
-			}
-		}
-	}
-	
-	private void lockSymbol()
-	{
-		
-		Scanner saisie  = new Scanner(System.in);
-		String[] resultats;
-		do {
-			
-			System.out.print("Saisir symboles à conserver ( s'éparer par une virgule) : ");
-			String result = saisie.nextLine();
-			resultats = result.split(",");
-		}
-		while(resultats.length > 2);
-		
-		if(resultats.length > 0 && !resultats[0].isEmpty())
-		{
-			symbolLock1 = Integer.parseInt(resultats[0])-1;
-		}
-		if(resultats.length >1 && !resultats[1].isEmpty())
-		{
-			symbolLock2 = Integer.parseInt(resultats[1])-1;
-		}
-			
-		
-		 
-		
-	}
-	
-	private void afficheResultat()
-	{
-		for(Symbole symbole : symbol_combinaison)
-		{
-			System.out.print(symbole.getNom() + "/");
-		}
-		
-		System.out.println("\nVous avez perdu " + nb_jetons_perdu  +" jeton(s) et gagner " + nb_jetons_gagne + " jeton(s) sur cette machine" );
-		
-
-	}
-	private int getIndexMinMaxSymbol(Boolean maxi)
-	{
-		int indexMax = 0;
-		int indexMin = 0;
-		double max = symbol_combinaison.get(0).getRarete();
-		double min = symbol_combinaison.get(0).getRarete();
-		for(int i = 1; i< symbol_combinaison.size(); i++)
-		{
-			if(symbol_combinaison.get(i).getRarete() > max)
-			{
-				indexMax = i;
-			}
-			if(symbol_combinaison.get(i).getRarete() < min)
-			{
-				indexMin = i;
-			}
-		}
-		if(maxi)
-		   return indexMax;
-		 else
-			return indexMin;
-	}
-	
-	private void unlockSymbol()
-	{
-		symbolLock1 = -1;
-		symbolLock2 = -1;
-	}
-	
-	private Boolean verification()
-	{
-		if(symbol_combinaison.get(0) == symbol_combinaison.get(1) && symbol_combinaison.get(0) == symbol_combinaison.get(2))
-		{
-			
-			return true;
-		}
-		else
-			return false;
-	}
-	private void calculGains()
-	{
-		double taux = 1;
-		if(symbolLock1 != -1)
-		{
-			taux = 0.66;
-		}
-		if(symbolLock2 != -1)
-		{
-			taux = 0.33;
-		}
-		System.out.println("Taux : " + taux + " * " + symbol_combinaison.get(0).gettauxGain());
-		taux = taux * symbol_combinaison.get(0).gettauxGain();
-		System.out.println(" = " + taux+ " **** JETONS =  " + taux + " * " + solde_jeton);
-		this.current_player.nb_jeton += solde_jeton * taux;
-		nb_jetons_gagne+= solde_jeton * taux;
-		System.out.println(" = " + taux*solde_jeton + " TOTAL JOUEUR " + this.current_player.nb_jeton);
-		this.solde_jeton -= taux*this.solde_jeton;
-		System.out.println("RESTE " + this.solde_jeton);
-				
-		unlockSymbol();
 	}
 
 }
